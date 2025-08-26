@@ -1,0 +1,16 @@
+.transition-navbar.show {
+    top: 0;
+  }
+  
+.transition-navbar.hide {
+  top: -80px; /* hides the navbar smoothly */
+}
+
+.hover-glow:hover {
+  background: linear-gradient(45deg, rgb(0, 158, 96), rgb(0, 225, 96));
+  color: white !important;
+  /* text-shadow: 0 0 8px #fff, 0 0 6px rgb(95, 85, 29); */
+  transform: scale(1.05);
+}
+
+  
