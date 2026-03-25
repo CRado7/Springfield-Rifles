@@ -185,6 +185,15 @@ app.post('/api/sponsor-inquiry', async (req, res) => {
 });
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }));
+const distPath = path.join(__dirname, "../client/dist");
+
+// Serve static frontend assets
+app.use(express.static(distPath));
+
+// Fallback for React Router
+app.get("*", (req, res) => {
+  res.sendFile(path.join(distPath, "index.html"));
+});
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🏉 Server running on port ${PORT}`);
 });
