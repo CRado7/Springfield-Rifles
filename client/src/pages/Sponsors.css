@@ -1,0 +1,206 @@
+/* ── Sponsors Grid ──────────────────────────────────────────────────────────── */
+.sponsors-section { background: var(--black2); }
+
+.sponsors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+.sponsor-card {
+  background: var(--black);
+  border: 1px solid var(--grey);
+  border-radius: var(--radius-lg);
+  padding: 28px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-decoration: none;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.sponsor-card:hover {
+  border-color: var(--gold-dark);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 30px rgba(201,168,76,0.12);
+}
+
+.sponsor-card--no-link { cursor: default; }
+.sponsor-card--no-link:hover { transform: none; box-shadow: none; border-color: var(--grey); }
+
+.sponsor-card img {
+  max-height: 80px;
+  max-width: 100%;
+  object-fit: contain;
+  filter: grayscale(30%);
+  transition: filter var(--transition);
+}
+
+.sponsor-card:hover img { filter: grayscale(0%); }
+
+.sponsor-card__placeholder {
+  height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--grey);
+  border-radius: var(--radius);
+  color: var(--text-muted);
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  letter-spacing: 0.05em;
+  text-align: center;
+  padding: 0 12px;
+}
+
+.sponsor-card__name {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 600;
+  transition: color var(--transition);
+}
+
+.sponsor-card:hover .sponsor-card__name { color: var(--gold); }
+
+.sponsors-empty {
+  padding: 60px 24px;
+  text-align: center;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ── Become a Sponsor ───────────────────────────────────────────────────────── */
+.become-sponsor-section { background: var(--black); }
+
+.become-sponsor-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.become-sponsor-info h2 {
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.become-sponsor-info h2 span { color: var(--gold); }
+
+.become-sponsor-info > p {
+  color: rgba(245,240,232,0.65);
+  line-height: 1.8;
+  margin-bottom: 36px;
+  font-size: 1.02rem;
+}
+
+.sponsor-perks {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sponsor-perk {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.sponsor-perk__icon {
+  font-size: 1.4rem;
+  width: 40px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.sponsor-perk strong {
+  display: block;
+  color: var(--white);
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.sponsor-perk p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* ── Form ────────────────────────────────────────────────────────────────────── */
+.become-sponsor-form-wrapper {
+  background: var(--black2);
+  border: 1px solid var(--grey);
+  border-radius: var(--radius-lg);
+  padding: 40px;
+}
+
+.sponsor-form__title {
+  font-size: 1.6rem;
+  color: var(--white);
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--grey);
+}
+
+.sponsor-submit {
+  width: 100%;
+  justify-content: center;
+  padding: 16px;
+  font-size: 1.1rem;
+  margin-top: 8px;
+}
+
+.sponsor-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.form-error {
+  color: #ff6b6b;
+  font-size: 0.88rem;
+  margin-bottom: 12px;
+  padding: 10px 14px;
+  background: rgba(255,107,107,0.1);
+  border: 1px solid rgba(255,107,107,0.3);
+  border-radius: var(--radius);
+}
+
+/* Contact success reuse */
+.contact-success {
+  text-align: center;
+  padding: 60px 24px;
+}
+.contact-success__icon {
+  width: 72px;
+  height: 72px;
+  background: var(--green);
+  color: var(--gold);
+  font-size: 2.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 24px;
+}
+.contact-success h3 {
+  font-size: 2rem;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+.contact-success p { color: var(--text-muted); line-height: 1.7; }
+
+@media (max-width: 900px) {
+  .become-sponsor-layout { grid-template-columns: 1fr; gap: 48px; }
+  .become-sponsor-form-wrapper { padding: 24px; }
+}
+
+@media (max-width: 600px) {
+  .sponsors-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+}

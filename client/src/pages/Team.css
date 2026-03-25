@@ -1,0 +1,36 @@
+.team-section { background: var(--black); }
+.team-section--womens { background: var(--black2); }
+
+.team-section__header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.team-badge { font-size: 0.9rem; padding: 5px 14px; }
+
+.team-section__title {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  color: var(--white);
+}
+
+.team-section__title span { color: var(--gold); }
+
+.players-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+.team-empty {
+  color: var(--text-muted);
+  padding: 32px 0;
+}
+
+@media (max-width: 600px) {
+  .players-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+}
