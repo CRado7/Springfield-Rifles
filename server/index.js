@@ -10,8 +10,22 @@ const { buildSponsorApplicantEmail, buildSponsorBoardEmail } = require('./emails
 const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:5173' }));
+app.use(cors({ origin: process.env.CLIENT_URL }));
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    `
+      default-src 'self';
+      script-src 'self';
+      style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+      font-src 'self' https://fonts.gstatic.com data:;
+      img-src 'self' data:;
+      connect-src 'self';
+    `.replace(/\n/g, "")
+  );
+  next();
+});
 
 // ── Email Transport ──────────────────────────────────────────────────────────
 function createTransport() {
@@ -96,9 +110,6 @@ app.get('/api/schedule', async (_, res) => {
 
 // ── Contact (Player Inquiry) ──────────────────────────────────────────────────
 app.post('/api/contact', async (req, res) => {
-  function isMensTeam(email) {
-
-  }
   const { name, email, phone, contactMethod, team, experience, positions, about } = req.body;
   if (!name || !email) return res.status(400).json({ error: 'Name and email are required.' });
 
@@ -174,4 +185,6 @@ app.post('/api/sponsor-inquiry', async (req, res) => {
 });
 
 app.get('/api/health', (_, res) => res.json({ status: 'ok' }));
-app.listen(PORT, () => console.log(`🏉 Server running on http://localhost:${PORT}`));
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`🏉 Server running on port ${PORT}`);
+});
