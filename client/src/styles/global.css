@@ -313,6 +313,8 @@ h1, h2, h3, h4 {
 .badge-mens    { background: rgba(26,92,46,0.4);  color: #6ee89a; border: 1px solid #1a5c2e; }
 .badge-womens  { background: rgba(201,168,76,0.2); color: var(--gold); border: 1px solid var(--gold-dark); }
 .badge-oldboys { background: rgba(180,40,40,0.3); color: #ff9999; border: 1px solid #aa2020; }
+.badge-executive { background: rgba(225,225,225,0.2); color: var(--white);       border: 1px solid var(--white); }
+.badge-oldboys   { background: rgba(80,50,20,0.35);  color: #d4a96a;           border: 1px solid #7a5a2e; }
 .badge-event   { background: rgba(100,100,200,0.2); color: #a0a0ff; border: 1px solid #4040aa; }
 .badge-home    { background: rgba(26,92,46,0.4);  color: #6ee89a; border: 1px solid #1a5c2e; }
 .badge-away    { background: rgba(180,40,40,0.3); color: #ff9999; border: 1px solid #aa2020; }
