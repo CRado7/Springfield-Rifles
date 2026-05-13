@@ -45,6 +45,10 @@ export default function Footer() {
       <div className="footer__bottom">
         <div className="container">
           <p>© {new Date().getFullYear()} Springfield Rifles RFC. All rights reserved.</p>
+          <br />
+          <p>
+            Built by <a href="https://www.radodesignstudio.com" target="_blank" rel="noopener noreferrer">Rado Design Studio</a>.
+          </p>
         </div>
       </div>
     </footer>
