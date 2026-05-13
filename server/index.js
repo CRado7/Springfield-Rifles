@@ -125,7 +125,7 @@ app.get('/api/events', async (_, res) => {
 });
 
 app.get('/api/board', async (_, res) => {
-  try { res.json(rowsToObjects(await getSheetData('BoardMembers!A:D'))); }
+  try { res.json(rowsToObjects(await getSheetData('BoardMembers!A:E'))); }
   catch (e) { res.status(500).json({ error: e.message }); }
 });
 

@@ -25,6 +25,6 @@ dist-ssr
 *.sw?
 
 # Files
-.env
+*.env
 site-api-springfield-rifles-fe3901d31878.json
 
