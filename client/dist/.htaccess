@@ -1,19 +1,12 @@
-# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
-PassengerAppRoot "/home/springf5/repositories/Springfield-Rifles/server"
-PassengerBaseURI "/"
-PassengerNodejs "/home/springf5/nodevenv/repositories/Springfield-Rifles/server/20/bin/node"
-PassengerAppType node
-PassengerStartupFile index.js
-# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
-
 # ============================================================
 # .htaccess — Springfield Rifles RFC
-# Apache / HawkHost
+# Apache / LiteSpeed + HawkHost
 # ============================================================
 Options -Indexes
 
-# ── Force HTTPS ──────────────────────────────────────────────
 RewriteEngine On
+
+# ── Force HTTPS ───────────────────────────────────────────────
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
@@ -21,13 +14,13 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
 RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# ── Serve real static files directly ─────────────────────────
+# ── Serve real static files directly via LiteSpeed ───────────
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# ── Everything else → Passenger/Node ─────────────────────────
-RewriteRule ^ - [PT,L]
+# ── Proxy everything else to Node on port 3001 ───────────────
+RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
 
 # ── Security headers ──────────────────────────────────────────
 <IfModule mod_headers.c>

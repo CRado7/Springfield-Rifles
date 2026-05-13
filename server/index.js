@@ -1,5 +1,5 @@
 require('dotenv').config();
-require('fs').writeFileSync('/home/springf5/repositories/Springfield-Rifles/server/passenger_start.log', new Date().toISOString() + '\n');
+// require('fs').writeFileSync('/home/springf5/repositories/Springfield-Rifles/server/passenger_start.log', new Date().toISOString() + '\n');
 const express  = require('express');
 const cors     = require('cors');
 const path     = require('path');
@@ -81,8 +81,12 @@ async function getSheetData(range) {
 
 function formatDriveUrl(url) {
   if (!url || typeof url !== 'string') return url;
+  if (!url.includes('drive.google.com')) return url;
   const match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  return match ? `https://lh3.googleusercontent.com/d/${match[1]}` : url;
+  if (match && match[1]) {
+    return `/api/proxy/image?id=${match[1]}`;
+  }
+  return url;
 }
 
 function rowsToObjects(rows) {
@@ -232,6 +236,45 @@ app.post('/api/sponsor-inquiry', async (req, res) => {
   } catch (err) {
     console.error('Sponsor email error:', err.message);
     res.status(500).json({ error: 'Failed to send email. Please try again.' });
+  }
+});
+
+// ── Image Proxy (Google Drive) ────────────────────────────────────────────────
+const imageCache = new Map();
+const CACHE_TTL = 24 * 60 * 60 * 1000; // 24 hours
+
+app.get('/api/proxy/image', async (req, res) => {
+  const { id } = req.query;
+  if (!id) return res.status(400).send('Missing id');
+
+  // Serve from cache if available
+  const cached = imageCache.get(id);
+  if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
+    res.setHeader('Content-Type', cached.contentType);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    return res.send(cached.buffer);
+  }
+
+  try {
+    const imageUrl = `https://drive.google.com/thumbnail?id=${id}&sz=w400`;
+    const response = await fetch(imageUrl);
+
+    if (!response.ok) {
+      return res.status(response.status).send('Failed to fetch image');
+    }
+
+    const contentType = response.headers.get('content-type') || 'image/jpeg';
+    const buffer = Buffer.from(await response.arrayBuffer());
+
+    // Cache for next request
+    imageCache.set(id, { buffer, contentType, timestamp: Date.now() });
+
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=86400');
+    res.send(buffer);
+  } catch (err) {
+    console.error('Image proxy error:', err.message);
+    res.status(500).send('Image fetch failed');
   }
 });
 
