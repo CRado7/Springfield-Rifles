@@ -1,0 +1,7 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/springf5/repositories/Springfield-Rifles
+    - /bin/cp -rT $DEPLOYPATH/client/dist /home/springf5/public_html
+    - cd $DEPLOYPATH/server && npm install --production
+    - /bin/touch $DEPLOYPATH/server/tmp/restart.txt
