@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('fs').writeFileSync('/home/springf5/repositories/Springfield-Rifles/server/passenger_start.log', new Date().toISOString() + '\n');
 const express  = require('express');
 const cors     = require('cors');
 const path     = require('path');
