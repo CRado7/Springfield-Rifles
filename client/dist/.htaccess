@@ -1,6 +1,5 @@
 # ============================================================
 # .htaccess — Springfield Rifles RFC
-# Apache / LiteSpeed + HawkHost
 # ============================================================
 Options -Indexes
 
@@ -14,13 +13,17 @@ RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 RewriteCond %{HTTP_HOST} !^www\. [NC]
 RewriteRule ^ https://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# ── Serve real static files directly via LiteSpeed ───────────
+# ── Serve real static files directly ─────────────────────────
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# ── Proxy everything else to Node on port 3001 ───────────────
+# ── Proxy ONLY API calls to Node ─────────────────────────────
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
 RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
+
+# ── SPA fallback — React routes get index.html ───────────────
+RewriteRule ^ /index.html [L]
 
 # ── Security headers ──────────────────────────────────────────
 <IfModule mod_headers.c>
@@ -39,7 +42,6 @@ RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
   ExpiresByType image/webp             "access plus 1 year"
   ExpiresByType text/css               "access plus 1 month"
   ExpiresByType application/javascript "access plus 1 month"
-  ExpiresByType application/json       "access plus 1 week"
   ExpiresByType text/html              "access plus 0 seconds"
 </IfModule>
 
