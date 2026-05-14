@@ -1,10 +1,9 @@
-// hooks/useApi.js
 import { useState, useEffect } from 'react';
 
 export function useApi(endpoint) {
-  const [data, setData] = useState(null);
+  const [data, setData]       = useState(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError]     = useState(null);
 
   useEffect(() => {
     if (!endpoint) return;
@@ -14,7 +13,11 @@ export function useApi(endpoint) {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch(endpoint);
+        // Cache buster — ensures fresh data every time
+        const url = `${endpoint}?_t=${Date.now()}`;
+        const res = await fetch(url, {
+          headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' },
+        });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         const json = await res.json();
         if (!cancelled) setData(json);

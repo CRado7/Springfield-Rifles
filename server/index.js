@@ -36,6 +36,7 @@ app.use('/api', (req, res, next) => {
   res.setHeader('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate');
   res.setHeader('Pragma', 'no-cache');
   res.setHeader('Expires', '0');
+  res.setHeader('Surrogate-Control', 'no-store');
   next();
 });
 
@@ -83,6 +84,7 @@ async function getSheetData(range) {
     spreadsheetId: process.env.SPREADSHEET_ID,
     range,
   });
+  console.log(`Fetched data for range "${range}":`, res.data.values ? `${res.data.values.length} rows` : 'No data');
   return res.data.values || [];
 }
 

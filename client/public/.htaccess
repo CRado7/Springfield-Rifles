@@ -32,13 +32,20 @@ RewriteRule ^ - [L]
 RewriteCond %{REQUEST_URI} ^/api/ [NC]
 RewriteRule ^ - [PT,L]
 
-# ── Security headers ──────────────────────────────────────────
+# ── Headers (security + cache control) ───────────────────────
 <IfModule mod_headers.c>
+  # Security
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
   Header always set X-XSS-Protection "1; mode=block"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # Prevent LiteSpeed from caching API responses
+  SetEnvIf Request_URI "^/api/" IS_API
+  Header always set Cache-Control "no-store, no-cache, must-revalidate" env=IS_API
+  Header always set Pragma "no-cache" env=IS_API
+  Header always set X-LiteSpeed-Cache-Control "no-cache=*" env=IS_API
 </IfModule>
 
 # ── Cache static assets ───────────────────────────────────────
