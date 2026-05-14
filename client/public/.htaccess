@@ -12,6 +12,8 @@ PassengerStartupFile index.js
 # ============================================================
 Options -Indexes
 
+RewriteEngine On
+
 # ── Force HTTPS ──────────────────────────────────────────────
 RewriteEngine On
 RewriteCond %{HTTPS} off
@@ -27,6 +29,7 @@ RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
 # ── Everything else → Passenger/Node ─────────────────────────
+RewriteCond %{REQUEST_URI} ^/api/ [NC]
 RewriteRule ^ - [PT,L]
 
 # ── Security headers ──────────────────────────────────────────
