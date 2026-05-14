@@ -1,11 +1,19 @@
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION BEGIN
+PassengerAppRoot "/home/springf5/repositories/Springfield-Rifles/server"
+PassengerBaseURI "/"
+PassengerNodejs "/home/springf5/nodevenv/repositories/Springfield-Rifles/server/20/bin/node"
+PassengerAppType node
+PassengerStartupFile index.js
+# DO NOT REMOVE. CLOUDLINUX PASSENGER CONFIGURATION END
+
 # ============================================================
 # .htaccess — Springfield Rifles RFC
+# Apache / HawkHost
 # ============================================================
 Options -Indexes
 
+# ── Force HTTPS ──────────────────────────────────────────────
 RewriteEngine On
-
-# ── Force HTTPS ───────────────────────────────────────────────
 RewriteCond %{HTTPS} off
 RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
@@ -18,12 +26,8 @@ RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^ - [L]
 
-# ── Proxy ONLY API calls to Node ─────────────────────────────
-RewriteCond %{REQUEST_URI} ^/api/ [NC]
-RewriteRule ^(.*)$ http://localhost:3001/$1 [P,L]
-
-# ── SPA fallback — React routes get index.html ───────────────
-RewriteRule ^ /index.html [L]
+# ── Everything else → Passenger/Node ─────────────────────────
+RewriteRule ^ - [PT,L]
 
 # ── Security headers ──────────────────────────────────────────
 <IfModule mod_headers.c>
@@ -42,6 +46,7 @@ RewriteRule ^ /index.html [L]
   ExpiresByType image/webp             "access plus 1 year"
   ExpiresByType text/css               "access plus 1 month"
   ExpiresByType application/javascript "access plus 1 month"
+  ExpiresByType application/json       "access plus 1 week"
   ExpiresByType text/html              "access plus 0 seconds"
 </IfModule>
 
