@@ -17,6 +17,7 @@ function getUpcomingWeek(items) {
 export default function Home() {
   const { data: schedule, loading } = useApi('/api/schedule');
   const upcomingEvents = getUpcomingWeek(schedule);
+  const ClubPhoto = "/teamphoto.jpeg";
 
   return (
     <main className="home">
@@ -83,13 +84,34 @@ export default function Home() {
           </div>
           <div className="about-image">
             <div className="about-image__frame">
-              <div className="about-image__placeholder">
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
-                  <ellipse cx="12" cy="12" rx="5" ry="8" transform="rotate(-30 12 12)" />
-                  <line x1="7" y1="9" x2="17" y2="9" /><line x1="7" y1="15" x2="17" y2="15" />
-                </svg>
-                <p>Club Photo</p>
-              </div>
+
+              {ClubPhoto ? (
+                <img src={ClubPhoto} alt="club photo" />
+              ) : (
+                <div className="about-image__placeholder">
+                  <svg
+                    width="64"
+                    height="64"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1"
+                  >
+                    <ellipse
+                      cx="12"
+                      cy="12"
+                      rx="5"
+                      ry="8"
+                      transform="rotate(-30 12 12)"
+                    />
+                    <line x1="7" y1="9" x2="17" y2="9" />
+                    <line x1="7" y1="15" x2="17" y2="15" />
+                  </svg>
+
+                  <p>Club Photo</p>
+                </div>
+              )}
+
             </div>
           </div>
         </div>
